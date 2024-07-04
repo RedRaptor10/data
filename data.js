@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 function addEvents() {
-	const items = document.querySelectorAll('nav > *');
+	const items = document.querySelectorAll('nav > div > *');
 
 	items.forEach(x => {
 		x.addEventListener('click', async () => {
@@ -19,7 +19,7 @@ function addEvents() {
 			if (!data) {
 				// Reset
 				document.querySelector('.data-table > div:last-child').innerHTML = '';
-				document.querySelector('.data-count').innerHTML = '';
+				document.querySelector('.data-info').innerHTML = '';
 				items.forEach(y => y.classList.remove('active'));
 				return;
 			}
@@ -50,12 +50,10 @@ async function getData(resource, filename) {
 
 function addData(data) {
 	const target = document.querySelector('.data-table > div:last-child');
+	var totalSize = 0;
 
 	// Clear Table
 	target.innerHTML = '';
-	
-	// Update Count
-	document.querySelector('.data-count').innerHTML = 'Total: ' + data.length;
 
 	data.forEach(d => {
 		if (!d.is_folder) return; // Continue
@@ -78,7 +76,13 @@ function addData(data) {
 
 		row.append(col1, col2, col3);
 		target.append(row);
+
+		// Update Total Size
+		totalSize += d.size;
 	});
+
+	// Update Info
+	document.querySelector('.data-info').innerHTML = 'Total: ' + data.length + ' &#x2022; ' + formatBytes(totalSize, 0);
 }
 
 function formatBytes(bytes, decimals = 2) {
