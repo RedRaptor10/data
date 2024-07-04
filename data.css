@@ -4,11 +4,8 @@
 	--border: 1px solid rgb(64, 64, 64);
 	--color: rgb(224, 224, 224);
 	--font-family: Arial, 'Times New Roman', serif;
-	--nav-color: rgb(0, 128, 255);
-	--nav-active-color: #fff;
-	--table-background-color: rgb(4, 8, 12);
+	--nav-background-color: rgb(0, 4, 8);
 	--table-body-max-height: 75vh;
-	--table-row-hover-background-color: rgb(24, 28, 32);
 }
 
 body {
@@ -21,30 +18,33 @@ body {
 
 /* Navigation */
 nav {
+	background-color: var(--nav-background-color);
+	margin-bottom: 16px
+}
+
+nav > div {
 	display: flex;
 	gap: 16px;
 	margin: 0 auto;
-	padding: 16px 0;
 	width: 50%;
 }
 
-nav > * {
-	color: var(--nav-color);
+nav > div > * {
 	cursor: pointer;
+	padding: 16px;
 }
 
-nav > *:hover {
-	color: var(--nav-active-color);
+nav > div > *:hover {
+	color: #fff;
 }
 
-nav > *.active {
-	color: var(--nav-active-color);
+nav > div > *.active {
+	background-color: var(--background-color-alt);
 }
 
 /* Data Table */
 .data-table {
-	background-color: var(--table-background-color);
-	box-shadow: 0 0px 8px rgb(0, 0, 0);
+	border: var(--border);
 	margin: 0 auto;
 	width: 50%;
 }
@@ -52,7 +52,7 @@ nav > *.active {
 /* Data Table - Header */
 .data-table > div:first-child {
 	align-items: center;
-	background-color: var(--background-color);
+	background-color: var(--background-color-alt);
 	border-bottom: var(--border);
 	display: inline-flex;
 	overflow-y: scroll;
@@ -63,7 +63,7 @@ nav > *.active {
 
 .data-table > div:first-child > div {
 	box-sizing: border-box;
-	padding: 8px;
+	padding: 12px 8px;
 }
 
 .data-table > div:first-child > div:first-child {
@@ -93,16 +93,12 @@ nav > *.active {
 	display: flex;
 }
 
-.data-table > div:last-child > div:nth-child(2n) {
-	background-color: var(--background-color);
-}
-
-.data-table > div:last-child > div:nth-child(2n + 1) {
-	background-color: var(--background-color-alt);
+.data-table > div:last-child > div:not(:last-child) {
+	border-bottom: var(--border);
 }
 
 .data-table > div:last-child > div:hover {
-	background-color: var(--table-row-hover-background-color);
+	background-color: var(--background-color-alt);
 }
 
 /* Data Table - Data */
@@ -110,7 +106,7 @@ nav > *.active {
 	align-items: center;
 	box-sizing: border-box;
 	display: inline-flex;
-	padding: 8px;
+	padding: 12px 8px;
 }
 
 .data-table > div:last-child > div > div:first-child {
@@ -127,8 +123,15 @@ nav > *.active {
 	width: 10%;
 }
 
-/* Data Count */
-.data-count {
+/* No Data */
+.no-data {
+	display: block;
+	padding: 16px;
+	text-align: center;
+}
+
+/* Data Info */
+.data-info {
 	margin: 0 auto;
 	padding: 16px 0;
 	text-align: right;
