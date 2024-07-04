@@ -1,0 +1,136 @@
+:root {
+	--background-color: rgb(8, 12, 16);
+	--background-color-alt: rgb(16, 20, 24);
+	--border: 1px solid rgb(64, 64, 64);
+	--color: rgb(224, 224, 224);
+	--font-family: Arial, 'Times New Roman', serif;
+	--nav-color: rgb(0, 128, 255);
+	--nav-active-color: #fff;
+	--table-background-color: rgb(4, 8, 12);
+	--table-body-max-height: 75vh;
+	--table-row-hover-background-color: rgb(24, 28, 32);
+}
+
+body {
+	background-color: var(--background-color);
+	color: var(--color);
+	font-family: var(--font-family);
+	height: 100vh;
+	margin: 0;
+}
+
+/* Navigation */
+nav {
+	display: flex;
+	gap: 16px;
+	margin: 0 auto;
+	padding: 16px 0;
+	width: 50%;
+}
+
+nav > * {
+	color: var(--nav-color);
+	cursor: pointer;
+}
+
+nav > *:hover {
+	color: var(--nav-active-color);
+}
+
+nav > *.active {
+	color: var(--nav-active-color);
+}
+
+/* Data Table */
+.data-table {
+	background-color: var(--table-background-color);
+	box-shadow: 0 0px 8px rgb(0, 0, 0);
+	margin: 0 auto;
+	width: 50%;
+}
+
+/* Data Table - Header */
+.data-table > div:first-child {
+	align-items: center;
+	background-color: var(--background-color);
+	border-bottom: var(--border);
+	display: inline-flex;
+	overflow-y: scroll;
+	scrollbar-color: transparent transparent;
+	scrollbar-width: thin;
+	width: 100%;
+}
+
+.data-table > div:first-child > div {
+	box-sizing: border-box;
+	padding: 8px;
+}
+
+.data-table > div:first-child > div:first-child {
+	width: 70%;
+}
+
+.data-table > div:first-child > div:nth-child(2) {
+	text-align: center;
+	width: 20%;
+}
+
+.data-table > div:first-child > div:last-child {
+	text-align: right;
+	width: 10%;
+}
+
+/* Data Table - Body */
+.data-table > div:last-child {
+	max-height: var(--table-body-max-height);
+	overflow-y: auto;
+	scrollbar-width: thin;
+}
+
+/* Data Table - Rows */
+.data-table > div:last-child > div {
+	align-items: center;
+	display: flex;
+}
+
+.data-table > div:last-child > div:nth-child(2n) {
+	background-color: var(--background-color);
+}
+
+.data-table > div:last-child > div:nth-child(2n + 1) {
+	background-color: var(--background-color-alt);
+}
+
+.data-table > div:last-child > div:hover {
+	background-color: var(--table-row-hover-background-color);
+}
+
+/* Data Table - Data */
+.data-table > div:last-child > div > div {
+	align-items: center;
+	box-sizing: border-box;
+	display: inline-flex;
+	padding: 8px;
+}
+
+.data-table > div:last-child > div > div:first-child {
+	width: 70%;
+}
+
+.data-table > div:last-child > div > div:nth-child(2) {
+	justify-content: center;
+	width: 20%;
+}
+
+.data-table > div:last-child > div > div:last-child {
+	justify-content: flex-end;
+	width: 10%;
+}
+
+/* Data Count */
+.data-count {
+	margin: 0 auto;
+	padding: 16px 0;
+	text-align: right;
+	width: 50%;
+}
