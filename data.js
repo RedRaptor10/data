@@ -4,10 +4,12 @@ const cache = {
 };
 
 document.addEventListener('DOMContentLoaded', () => {
-	addEvents();
+	addNavigationEvents();
+	addSearchEvent();
+	addSortEvents();
 });
 
-function addEvents() {
+function addNavigationEvents() {
 	const items = document.querySelectorAll('nav > div > *');
 
 	items.forEach(x => {
@@ -30,6 +32,142 @@ function addEvents() {
 			x.classList.add('active');
 		});
 	});
+}
+
+function addSearchEvent() {
+	const search = document.querySelector('.data-search > input');
+
+	search.addEventListener('keyup', () => {
+		searchData(search);
+	});
+}
+
+function addSortEvents() {
+	const table = document.querySelector('.data-table');
+	const headers = table.querySelectorAll('div:first-child > div');
+
+	headers.forEach((header, i) => {
+		header.addEventListener('click', () => {
+			let currentSortOrder = null;
+			const sortActive = header.querySelector('.sort-active');
+
+			if (sortActive) {
+				if (sortActive.classList.contains('sort-up')) {
+					currentSortOrder = 'asc';
+				} else if (sortActive.classList.contains('sort-down')) {
+					currentSortOrder = 'desc';
+				}
+			}
+			
+			const targetSortOrder = currentSortOrder == null || currentSortOrder == 'desc' ? 'asc' : 'desc';
+
+			sortData(header, i, targetSortOrder);
+		});
+	});
+}
+
+function searchData(searchInput) {
+	const value = searchInput.value.toUpperCase();
+	const cells = document.querySelectorAll('.data-table > div:last-child > div > div:first-child');
+
+	cells.forEach(c => {
+		const text = c.innerHTML.toUpperCase();
+
+		if (text.indexOf(value) > -1) {
+			c.parentNode.classList.remove('hidden-important');
+		} else {
+			c.parentNode.classList.add('hidden-important');
+		}
+	});
+}
+
+function sortData(header, index, sortOrder) {
+	const items = document.querySelectorAll('.data-table > div:last-child > div > div:nth-child(' + (index + 1) + ')');
+	const itemsArray = Array.from(items);
+
+	switch (index) {
+		// Name
+		case 0:
+			itemsArray.sort(function(a, b) {
+				let result;
+
+				if (sortOrder == 'asc') {
+					result = a.innerHTML.toUpperCase().localeCompare(b.innerHTML.toUpperCase());
+				} else if (sortOrder == 'desc') {
+					result = b.innerHTML.toUpperCase().localeCompare(a.innerHTML.toUpperCase());
+				}
+
+				return result;
+			});
+
+			break;
+		// Date
+		case 1:
+			itemsArray.sort(function(a, b) {
+				const dateA = new Date(a.innerHTML);
+				const dateB = new Date(b.innerHTML);
+
+				if (dateA.getTime() == dateB.getTime()) {
+					return 0;
+				} else if (sortOrder == 'asc') {
+					if (dateA.getTime() < dateB.getTime()) {
+						return -1;
+					} else if (dateA.getTime() > dateB.getTime()) {
+						return 1;
+					}
+				} else if (sortOrder == 'desc') {
+					if (dateA.getTime() < dateB.getTime()) {
+						return 1;
+					} else if (dateA.getTime() < dateB.getTime()) {
+						return 1;
+					}
+				}
+			});
+
+			break;
+		// Size
+		case 2:
+			itemsArray.sort(function(a, b) {
+				const sizeA = parseInt(a.dataset.size);
+				const sizeB = parseInt(b.dataset.size);
+
+				if (sortOrder == 'asc') {
+					if (sizeA < sizeB) {
+						return -1;
+					} else if (sizeA == sizeB) {
+						return 0;
+					} else if (sizeA > sizeB) {
+						return 1;
+					}
+				} else if (sortOrder == 'desc') {
+					if (sizeB < sizeA) {
+						return -1;
+					} else if (sizeB == sizeA) {
+						return 0;
+					} else if (sizeB > sizeA) {
+						return 1;
+					}
+				}
+			});
+
+			break;
+		default:
+			break;
+	}
+
+	for (let i = 0; i < itemsArray.length; i++) {
+		itemsArray[i].parentNode.parentNode.appendChild(itemsArray[i].parentNode);
+	}
+
+	// Set Active Sort Arrow
+	const sortArrows = document.querySelectorAll('.sort-arrow');
+	const targetSortArrow = sortOrder == 'asc' ? header.querySelector('.sort-up') : header.querySelector('.sort-down');
+
+	sortArrows.forEach(x => {
+		x.classList.remove('sort-active');
+	});
+
+	targetSortArrow.classList.add('sort-active');
 }
 
 async function getData(resource, filename) {
@@ -73,6 +211,7 @@ function addData(data) {
 		col1.innerHTML = name;
 		col2.innerHTML = dateModified;
 		col3.innerHTML = size;
+		col3.dataset.size = d.size;
 
 		row.append(col1, col2, col3);
 		target.append(row);
