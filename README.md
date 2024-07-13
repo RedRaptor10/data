@@ -13,6 +13,6 @@ Data is provided by using [Everything](https://www.voidtools.com/) by voidtools,
 
 **Features**:
 - Read folder data by name, date modified, and file size in a scrollable table list
-- TODO: Search data by name
-- TODO: Sort data by columns
+- Search data by name
+- Sort data by columns
 - TODO: Add loading spinner
